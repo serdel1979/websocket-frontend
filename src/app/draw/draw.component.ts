@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { SocketWebService } from '../socket-web.service';
 
 @Component({
   selector: 'app-draw',
@@ -33,7 +34,15 @@ export class DrawComponent implements OnInit, AfterViewInit {
   }
 
 
-  constructor() { }
+  constructor(
+    private socketWebService: SocketWebService,
+  ) {
+    this.socketWebService.outEven.subscribe(res => {
+
+      const { prevPost } = res;
+      this.writeSingle(prevPost, false);
+    })
+  }
 
   ngOnInit(): void {
   }
